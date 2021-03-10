@@ -1,0 +1,107 @@
+.select-wrap {
+    box-shadow: 0px 0px 12px 0px #585858;
+    border: 1px solid rgb(155, 155, 155);
+    border-radius: 12px;
+    position: relative;
+    transition: border-radius 0.3s ease;
+
+    &.opened {
+        transition: border-radius 0.3s ease;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        .select-arrow::before {
+            transform: rotate(45deg);
+        }
+        .select-arrow::after {
+            transform: rotate(-45deg);
+        }
+        .select-list {
+            opacity: 1;
+            transform: scaleY(1);
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+    }
+}
+
+.select-value {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.select-text {
+    font-weight: 700;
+}
+
+.select-arrow {
+    position: relative;
+    display: block;
+
+    &::after {
+        content: '';
+        cursor: pointer;
+        width: 13px;
+        height: 3px;
+        position: absolute;
+        background-color: #000;
+        transform: rotate(45deg);
+        right: 8px;
+        transition: transform 0.1s ease;
+    }
+
+    &::before {
+        content: '';
+        cursor: pointer;
+        width: 13px;
+        height: 3px;
+        position: absolute;
+        background-color: #000;
+        transform: rotate(-45deg);
+        right: 0;
+        transition: transform 0.1s ease;
+    }
+}
+
+
+.select-list {
+    list-style: none;
+    position: absolute;
+    width: calc(100% + 2px);
+    box-shadow: 0px 2px 12px 0px #585858;
+    border: 1px solid rgb(155, 155, 155);
+    border-radius: 12px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    left: -1px;
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    max-height: 231px;
+    overflow-y: auto;
+    z-index: 2;
+    opacity: 0;
+}
+
+.select-item {
+    padding: 13px;
+    border-bottom: 1px solid rgb(155, 155, 155);
+    background-color: #fff;
+
+    cursor: pointer;
+    &.active {
+        background-color: rgb(91, 213, 250);
+        &:hover {
+            background-color: darken(rgb(91, 213, 250), 5%);
+        }
+    }
+    &:hover {
+        background-color: rgb(231, 231, 231);
+    }
+
+    &:last-child {
+        border: 0;
+    }
+}
