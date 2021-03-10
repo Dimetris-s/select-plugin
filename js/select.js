@@ -4,11 +4,11 @@ class CustomSelect {
     borderWidth = 1
     constructor(element, options = {}) {
         this.element = document.querySelector(element)
-        this.width = options.width ? options.width : +this.element.style.width.slice(0, -2)
+        this.width = options.width || +this.element.style.width.slice(0, -2) || null
         this.optionsCount = options.optionsCount ? options.optionsCount : 5
         
         this.options = this.getSelectOptions(this.element)
-        this.defaultOption = this.getDefaultOption(this.element)
+        this.defaultOption = this.getDefaultOption(this.element) || this.options[0]
         this.currentValue = this.defaultOption.label
 
         this.select = this._createSelect({width: this.width})
@@ -19,9 +19,7 @@ class CustomSelect {
         document.addEventListener('click', this._listener)
     }
     
-    _listener = (evt) => {
-        if(!evt.target.closest('.select-wrap')) this.close()
-    }
+
 
     getDefaultOption(element) {
         const result = Array.from(element.options).find(el => el.defaultSelected === true)
@@ -58,7 +56,7 @@ class CustomSelect {
     _createSelect(options) {
         const select = document.createElement('div')
         select.classList.add('select-wrap')
-        select.style.width = options.width + 'px'
+        select.style.maxWidth = options.width ? options.width + 'px' : '100%'
         select.append(this._createCurrentSelectValue())
         select.append(this._createSelectOptionsList())
 
@@ -98,10 +96,14 @@ class CustomSelect {
                 const i = setTimeout(() => {
                     item.classList.add('active')
                     clearTimeout(i)
-                }, 100)
+                }, 200)
                 this.element.value = item.dataset.value
             })
         })
         return optionsList
+    }
+
+    _listener = (evt) => {
+        if(!evt.target.closest('.select-wrap')) this.close()
     }
 }
